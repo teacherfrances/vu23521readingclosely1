@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Before We Start: What Do You Already Know?</title>
+<style>
+:root{
+  --navy:#0b2e4f; --navy2:#16466f; --teal:#0f7d7d; --teal-l:#e4f2f2;
+  --amber:#c07a12; --amber-l:#fdf3e0; --green:#1c7a3e; --red:#b3261e;
+  --bg:#f6f2ea; --card:#ffffff; --line:#e3ddd0; --grey:#5a6672; --focus:#1a73b8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:#1a1a1a;
+  font:19px/1.55 "Segoe UI",Calibri,system-ui,sans-serif;
+  -webkit-text-size-adjust:100%;
+}
+body.big{font-size:23px}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px 64px}
+
+/* top bar */
+.top{background:var(--navy);color:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+.top .in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:1.02em;letter-spacing:.2px}
+.brand span{color:#f2c98a;font-weight:600}
+.top .sp{flex:1}
+.tbtn{
+  background:transparent;color:#fff;border:2px solid rgba(255,255,255,.45);
+  border-radius:999px;padding:8px 16px;min-height:44px;font:inherit;font-size:.82em;
+  cursor:pointer;
+}
+.tbtn:hover{background:rgba(255,255,255,.14)}
+.tbtn:focus-visible{outline:3px solid #f2c98a;outline-offset:2px}
+
+/* hero */
+.hero{padding:34px 0 8px}
+.eyebrow{color:var(--teal);font-weight:700;font-size:.78em;letter-spacing:2px;text-transform:uppercase}
+h1{font-size:2.15em;line-height:1.12;margin:.24em 0 .18em;color:var(--navy);letter-spacing:-.5px}
+.lede{color:var(--grey);font-size:1.03em;max-width:44em;margin:0 0 4px}
+
+/* progress */
+.prog{position:sticky;top:60px;z-index:15;background:var(--bg);padding:12px 0 10px;border-bottom:1px solid var(--line)}
+.prog .lbl{display:flex;justify-content:space-between;font-size:.8em;color:var(--grey);margin-bottom:6px}
+.bar{height:12px;background:#e8e2d6;border-radius:999px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--amber));transition:width .35s ease}
+.dots{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.dot{
+  border:2px solid var(--line);background:#fff;border-radius:999px;
+  padding:8px 14px;min-height:44px;font:inherit;font-size:.8em;cursor:pointer;color:var(--navy);
+}
+.dot[aria-current="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.dot.done{border-color:var(--green);color:var(--green)}
+.dot.done[aria-current="true"]{color:#fff}
+.dot:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* round header */
+.rhead{background:var(--navy);color:#fff;border-radius:14px;padding:20px 22px;margin:22px 0 6px}
+.rhead .n{color:#f2c98a;font-weight:700;font-size:.76em;letter-spacing:2px;text-transform:uppercase}
+.rhead h2{margin:.2em 0 .25em;font-size:1.45em}
+.rhead p{margin:0;color:#dce7f0;font-size:.92em}
+
+/* cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:18px 0}
+.qn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:38px;height:38px;border-radius:10px;background:var(--navy);color:#fff;
+  font-weight:700;font-size:.86em;margin-right:10px;flex:none;
+}
+.qtop{display:flex;align-items:flex-start;margin-bottom:6px}
+.qtext{font-weight:600;font-size:1.06em;padding-top:5px}
+.tag{
+  display:inline-block;background:var(--amber-l);color:var(--amber);border:1px solid #e8cfa3;
+  border-radius:999px;padding:3px 12px;font-size:.72em;font-weight:700;letter-spacing:.6px;
+  text-transform:uppercase;margin-bottom:12px;
+}
+
+/* mockups */
+.mock{border:1px solid #c9d4de;border-radius:12px;overflow:hidden;margin:14px 0;position:relative}
+.mock .hd{background:var(--navy);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px}
+.mock .hd .who{flex:1;min-width:0}
+.mock .hd b{display:block;font-size:1.02em}
+.mock .hd .sub{display:block;color:#dce7f0;font-size:.76em;min-height:1.2em}
+.mock .bd{background:#f5f7f9;padding:16px 18px;min-height:56px;cursor:default}
+.mock .bd p{margin:.42em 0}
+.mock.email .bd{background:#fff}
+.frow{display:flex;border-bottom:1px solid #e6ecf1;font-size:.92em}
+.frow .k{background:#f5f7f9;color:var(--navy);font-weight:700;padding:8px 14px;min-width:118px;flex:none}
+.frow .v{padding:8px 14px}
+.notice{border:3px solid var(--amber);border-radius:12px;background:#fff;padding:20px;text-align:center;margin:14px 0}
+.notice b{display:block;color:var(--navy);font-size:1.25em;margin-bottom:8px;letter-spacing:.5px}
+.notice p{margin:.3em 0}
+
+/* live: shared */
+.replay{
+  flex:none;background:transparent;color:#fff;border:2px solid rgba(255,255,255,.4);
+  border-radius:999px;padding:6px 13px;min-height:44px;font:inherit;font-size:.68em;cursor:pointer;
+}
+.replay:hover{background:rgba(255,255,255,.16)}
+.replay:focus-visible{outline:3px solid var(--amber-l);outline-offset:2px}
+.live{display:inline-flex;align-items:center;gap:6px}
+.live .dotp{width:8px;height:8px;border-radius:50%;background:#7fe0a8;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* live: text message */
+.bub{
+  background:#fff;border:1px solid #dfe6ec;border-radius:16px 16px 16px 4px;
+  padding:11px 15px;margin:.42em 0 !important;max-width:46em;
+  opacity:0;transform:translateY(10px);transition:opacity .3s ease,transform .3s ease;
+}
+.bub.in{opacity:1;transform:none}
+.typing{display:inline-flex;gap:6px;align-items:center;background:#e6ecf2;border-radius:999px;padding:12px 16px;margin:.42em 0}
+.typing i{width:9px;height:9px;border-radius:50%;background:#8a97a6;animation:tp 1.15s infinite}
+.typing i:nth-child(2){animation-delay:.18s}
+.typing i:nth-child(3){animation-delay:.36s}
+@keyframes tp{0%,62%,100%{opacity:.32;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+.mstat{font-size:.72em;color:var(--grey);text-align:right;padding:5px 18px 9px;background:#f5f7f9;min-height:1.6em}
+
+/* live: email */
+.newmail{
+  background:var(--teal);color:#fff;font-size:.78em;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;padding:8px 16px;display:flex;align-items:center;gap:8px;
+}
+.newmail[hidden]{display:none}
+.frow{opacity:0;transition:opacity .25s ease}
+.frow.in{opacity:1}
+.mock .bd .ln{opacity:0;transform:translateY(6px);transition:opacity .26s ease,transform .26s ease}
+.mock .bd .ln.in{opacity:1;transform:none}
+.hl{background:transparent;border-bottom:2px solid transparent;padding:1px 3px;font-weight:600;
+    transition:background .45s ease,border-color .45s ease}
+.hl.on{background:#fdf3e0;border-bottom-color:var(--amber)}
+.mock.done .hl{background:#fdf3e0;border-bottom-color:var(--amber)}
+
+/* options */
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.opt{
+  text-align:left;background:#fff;border:2px solid var(--line);border-radius:999px;
+  padding:12px 20px;min-height:52px;font:inherit;cursor:pointer;color:#1a1a1a;
+  display:flex;align-items:center;gap:12px;transition:border-color .15s,background .15s;
+}
+.opt:hover:not(:disabled){border-color:var(--teal);background:#f2fafa}
+.opt:disabled{cursor:default}
+.opt:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.opt .mk{
+  flex:none;width:30px;height:30px;border-radius:50%;border:2px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82em;color:var(--grey)
+}
+.opt.right{border-color:var(--green);background:#eaf6ee}
+.opt.right .mk{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong{border-color:var(--red);background:#fdeceb}
+.opt.wrong .mk{background:var(--red);border-color:var(--red);color:#fff}
+.opts.two{flex-direction:row;flex-wrap:wrap}
+.opts.two .opt{flex:1 1 180px}
+
+/* feedback */
+.fb{border-radius:12px;padding:14px 18px;margin-top:14px;font-size:.96em;display:none}
+.fb.show{display:block}
+.fb.good{background:#eaf6ee;border-left:6px solid var(--green)}
+.fb.bad{background:#fdeceb;border-left:6px solid var(--red)}
+.fb b{display:block;margin-bottom:3px}
+
+/* nav */
+.nav{display:flex;gap:12px;justify-content:space-between;margin:26px 0 0;flex-wrap:wrap}
+.btn{
+  background:var(--teal);color:#fff;border:2px solid var(--teal);border-radius:999px;
+  padding:12px 26px;min-height:52px;font:inherit;font-weight:600;cursor:pointer;
+}
+.btn:hover{background:#0c6a6a;border-color:#0c6a6a}
+.btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.btn.ghost{background:#fff;color:var(--navy);border-color:var(--line)}
+.btn.ghost:hover{background:#f0ece3;border-color:var(--navy)}
+.btn:disabled{opacity:.4;cursor:default}
+
+/* callout */
+.note{background:var(--teal-l);border-left:8px solid var(--teal);border-radius:12px;padding:18px 20px;margin:18px 0}
+.note.amber{background:var(--amber-l);border-left-color:var(--amber)}
+.note b{color:var(--navy);display:block;margin-bottom:6px;letter-spacing:.3px}
+.note p{margin:.35em 0}
+
+/* results */
+.score{text-align:center;padding:12px 0 4px}
+.score .big{font-size:3.4em;font-weight:700;color:var(--teal);line-height:1}
+.score .of{color:var(--grey)}
+.brk{margin-top:20px}
+.brow{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brow .nm{flex:1 1 190px;font-weight:600;color:var(--navy)}
+.brow .mb{flex:2 1 160px;height:14px;background:#e8e2d6;border-radius:999px;overflow:hidden;min-width:120px}
+.brow .mb i{display:block;height:100%;background:var(--teal);border-radius:999px}
+.brow .sc{flex:none;font-weight:700;min-width:56px;text-align:right}
+.plan{margin-top:8px}
+.plan li{margin:.5em 0}
+.foot{text-align:center;color:var(--grey);font-size:.78em;padding:34px 0 10px}
+.hide{display:none !important}
+@media (max-width:560px){
+  h1{font-size:1.7em}
+  .frow{flex-direction:column}
+  .frow .k{min-width:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important}
+  .bub,.frow,.mock .bd .ln{opacity:1 !important;transform:none !important}
+  .hl{background:#fdf3e0 !important;border-bottom-color:var(--amber) !important}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="in">
+    <div class="brand">Before We Start <span>&middot; VU23521</span></div>
+    <div class="sp"></div>
+    <button class="tbtn" id="bigBtn" type="button">Bigger text</button>
+    <button class="tbtn" id="restartBtn" type="button">Start again</button>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero" id="hero">
+    <div class="eyebrow">EAL Level 2 &middot; Reading</div>
+    <h1>What do you already know?</h1>
+  </section>
+
+  <div class="prog" id="progWrap">
+    <div class="lbl"><span id="progTxt">0 of 20 answered</span><span id="progPct">0%</span></div>
+    <div class="bar"><i class="fill" id="progFill"></i></div>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <main id="main"></main>
+  <p class="foot">TAFE NSW &middot; AMEP &middot; St Leonards &amp; Campsie</p>
+</div>
+
+<script>
+"use strict";
+
+/* ---------------- content ---------------- */
+var ROUNDS = [
+  {
+    name: "What kind of text is it?",
+    blurb: "Every text has a writer, a reader and a reason. Decide what you are looking at.",
+    maps: "Section 1 and Section 3: working out who wrote a text, who it is for, and why.",
+    items: [
+      {
+        mock: {t:"sms", who:"Dilnoza", sub:"Today, 4:12 pm", lines:[
+          "Hi Samir, are you going to class tomorrow? I can give you a lift if you like. Just let me know tonight. Dilnoza"]},
+        q: "What kind of text is this?",
+        opts: ["A formal email from a college",
+               "A notice on a wall for everybody",
+               "A message from a friend offering help"],
+        a: 2,
+        why: "It uses a first name, a short friendly sentence and an offer. Only one person is reading it."
+      },
+      {
+        mock: {t:"notice", title:"EARLWOOD PUBLIC LIBRARY", lines:[
+          "The library will close at 2 pm on Friday 15 May","for staff training.","Normal hours return on Saturday."]},
+        q: "Who is this text for?",
+        opts: ["Everybody who uses the library", "The staff who are training", "One person only"],
+        a: 0,
+        why: "A notice on a wall has no name on it. It is written for anyone who walks past."
+      },
+      {
+        mock: {t:"email", fields:[["From","Yagoona Family Dental"],["To","Yusra Abdi"],["Subject","Your appointment on Tuesday 9 June"]],
+               lines:["Dear Yusra","","This is a reminder of your appointment on Tuesday 9 June at 11:00 am.","","Kind regards","Yagoona Family Dental"]},
+        q: "Why was this email written?",
+        opts: ["To tell Yusra the clinic is closed",
+               "To remind Yusra about an appointment",
+               "To ask Yusra for money"],
+        a: 1,
+        why: "The subject line and the first sentence both say the same thing. The subject line is often the fastest clue."
+      },
+      {
+        mock: {t:"sms", who:"Carlton Tyre Centre", sub:"Today, 9:30 am", lines:[
+          "Good morning Rafael. Your car is ready. Please collect it before 5 pm today. Carlton Tyre Centre"]},
+        q: "Who wrote this message?",
+        opts: ["A family member", "A friend", "A business"],
+        a: 2,
+        why: "It signs off with a company name, not a person's name, and it is about a service."
+      }
+    ]
+  },
+  {
+    name: "Name the part",
+    blurb: "Reading questions use special words for the parts of a text. Which part is highlighted?",
+    maps: "Section 2: the words we use to talk about a text.",
+    items: [
+      {
+        mock: {t:"email", fields:[["From","Punchbowl Community Centre"],["To","Ling Chen"],["Subject","<hl>Your English conversation group</hl>"]],
+               lines:["Dear Ling","","The group meets every Wednesday at 10 am.","","Kind regards","Ms Beattie"]},
+        q: "What is the highlighted part called?",
+        opts: ["the greeting", "the signature", "the subject line"],
+        a: 2,
+        why: "The subject line is the short line that tells you what an email is about, before you open it."
+      },
+      {
+        mock: {t:"email", fields:[["From","Punchbowl Community Centre"],["To","Ling Chen"],["Subject","Your English conversation group"]],
+               lines:["<hl>Dear Ling</hl>","","The group meets every Wednesday at 10 am.","","Kind regards","Ms Beattie"]},
+        q: "What is the highlighted part called?",
+        opts: ["the body", "the greeting", "the closing"],
+        a: 1,
+        why: "The greeting says hello at the start. Hi, Hello and Dear are all greetings."
+      },
+      {
+        mock: {t:"email", fields:[["From","Punchbowl Community Centre"],["To","Ling Chen"],["Subject","Your English conversation group"]],
+               lines:["Dear Ling","","The group meets every Wednesday at 10 am.","","<hl>Kind regards</hl>","Ms Beattie"]},
+        q: "What is the highlighted part called?",
+        opts: ["the closing", "the sender", "the attachment"],
+        a: 0,
+        why: "The closing is the polite words at the end, just before the name. The name itself is the signature."
+      },
+      {
+        mock: {t:"email", fields:[["From","Arncliffe Childcare"],["To","Jomo Ndlovu"],["Subject","Enrolment forms for July"],["Attachment","<hl>Enrolment_Form.pdf</hl>"]],
+               lines:["Dear Jomo","","Please complete the form and bring it to the office.","","Kind regards","Arncliffe Childcare"]},
+        q: "What is the highlighted part called?",
+        opts: ["an attachment", "a reference number", "the body"],
+        a: 0,
+        why: "An attachment is a document sent with an email. You have to open it to read it."
+      }
+    ]
+  },
+  {
+    name: "True or False",
+    blurb: "Read the text, then decide. The answer is always in the text, not in your head.",
+    maps: "Section 4: how to be sure of a True or False answer.",
+    items: [
+      {
+        mock: {t:"notice", title:"PUNCHBOWL COMMUNITY CENTRE", lines:[
+          "The car park is closed on Tuesday 2 June","from 7 am to 1 pm for repairs.","Please park on Rose Street."]},
+        q: "True or False: the car park is closed all day on Tuesday.",
+        opts: ["True", "False"], two: true,
+        a: 1,
+        why: "It is closed from 7 am to 1 pm only. Always check the times, not just the day."
+      },
+      {
+        mock: {t:"sms", who:"Seven Hills Medical", sub:"Today, 8:05 am", lines:[
+          "Hi Aziza, your appointment with Dr Chen is on Monday 12 May at 3:30 pm. Please arrive 10 minutes early. Seven Hills Medical"]},
+        q: "True or False: Aziza should arrive at 3:20 pm.",
+        opts: ["True", "False"], two: true,
+        a: 0,
+        why: "3:30 pm minus 10 minutes is 3:20 pm. The text does not write 3:20, so you have to work it out."
+      },
+      {
+        mock: {t:"sms", who:"Seven Hills Medical", sub:"Today, 8:05 am", lines:[
+          "Hi Aziza, your appointment with Dr Chen is on Monday 12 May at 3:30 pm. Please arrive 10 minutes early. Seven Hills Medical"]},
+        q: "True or False: Aziza is seeing Dr Chen about her back.",
+        opts: ["True", "False"], two: true,
+        a: 1,
+        why: "The text does not say why she is going. If the text does not say it, the answer is False. This one catches a lot of people."
+      },
+      {
+        mock: {t:"sms", who:"Dilnoza", sub:"Yesterday, 7:20 pm", lines:[
+          "Sorry Samir, I cannot make it to the picnic on Saturday. I have to work. Have a great day! Dilnoza"]},
+        q: "True or False: Dilnoza is going to the picnic.",
+        opts: ["True", "False"], two: true,
+        a: 1,
+        why: "\"I cannot make it\" means she is not coming. The text never uses the word \"no\", so you have to know the expression."
+      }
+    ]
+  },
+  {
+    name: "What must you do?",
+    blurb: "Many everyday texts want you to do something. Find the action.",
+    maps: "Section 5: finding the action, and counting how many actions there are.",
+    items: [
+      {
+        mock: {t:"sms", who:"Earlwood Public Library", sub:"Today, 10:02 am", lines:[
+          "Hi Ling, your library card expires on 30 June. Please renew it online or at the front desk. Earlwood Public Library"]},
+        q: "What does the library want Ling to do?",
+        opts: ["Return her books by 30 June", "Pay a fine at the desk", "Renew her library card"],
+        a: 2,
+        why: "\"Renew\" means pay or sign again so something keeps working for more time."
+      },
+      {
+        mock: {t:"sms", who:"Arncliffe Childcare", sub:"Today, 1:15 pm", lines:[
+          "Hi Jomo, please sign the form and return it to the office before Friday. Arncliffe Childcare"]},
+        q: "How many things must Jomo do?",
+        opts: ["Two", "Three", "One"],
+        a: 0,
+        why: "Sign the form, and return it. Two actions in one sentence, joined by \"and\"."
+      },
+      {
+        mock: {t:"email", fields:[["From","Yagoona Family Dental"],["To","Yusra Abdi"],["Subject","Your appointment on Tuesday 9 June"]],
+               lines:["Dear Yusra","","Please bring your Medicare card.","","If you cannot come, phone us on 5550 8140.","","Kind regards","Yagoona Family Dental"]},
+        q: "Yusra IS coming to her appointment. What must she do?",
+        opts: ["Phone the clinic on 5550 8140",
+               "Bring her Medicare card",
+               "Both of these"],
+        a: 1,
+        why: "Phoning is only for people who cannot come. A detail can be in the text and still not be your action."
+      },
+      {
+        mock: {t:"sms", who:"Carlton Tyre Centre", sub:"Today, 9:30 am", lines:[
+          "Good morning Rafael. Your car is ready. Please collect it before 5 pm today and bring your paperwork. Carlton Tyre Centre"]},
+        q: "By when must Rafael collect the car?",
+        opts: ["Tomorrow morning", "Before 5 pm today", "The text does not say"],
+        a: 1,
+        why: "\"Before\" is a small word that changes everything. Collecting it at 5:30 pm would be too late."
+      }
+    ]
+  },
+  {
+    name: "Friendly or professional?",
+    blurb: "The same information can sound two very different ways. Which one is this?",
+    maps: "Section 7: friendly language and professional language.",
+    items: [
+      {
+        mock: null,
+        q: "\"Thanks heaps for yesterday! You are a legend. Talk soon.\"",
+        opts: ["Friendly and personal", "Polite and professional"], two: true,
+        a: 0,
+        why: "Short forms, an exclamation mark and warm words. You would write this to a friend, not to an office."
+      },
+      {
+        mock: null,
+        q: "\"We would like to invite you to renew your membership for another 12 months.\"",
+        opts: ["Friendly and personal", "Polite and professional"], two: true,
+        a: 1,
+        why: "\"We would like to invite you\" is a soft, formal way of asking. Businesses write like this."
+      },
+      {
+        mock: null,
+        q: "Which group of words shows a text is friendly and warm?",
+        opts: ["Tuesday ... office ... form ... number",
+               "the ... and ... for ... a ... is",
+               "thanks so much ... I would love to ... see you soon"],
+        a: 2,
+        why: "Look for feeling words and polite words. The other groups are plain information, or tiny joining words."
+      },
+      {
+        mock: null,
+        q: "An email starts \"Dear Mr Haddad\" and ends \"Kind regards\". What does that tell you?",
+        opts: ["It is a formal message, probably from a business or an office",
+               "It is from a close friend",
+               "The writer is angry"],
+        a: 0,
+        why: "Full name plus a title, and a formal closing. Friends use first names and casual sign-offs."
+      }
+    ]
+  }
+];
+
+/* ---------------- state ---------------- */
+var TOTAL = 0, flat = [];
+ROUNDS.forEach(function(r, ri){
+  r.items.forEach(function(it, ii){ flat.push({r:ri,i:ii}); TOTAL++; });
+});
+var answered = {};   // "ri.ii" -> true/false correct
+var view = 0;        // 0..ROUNDS.length-1, then ROUNDS.length = results
+
+var main = document.getElementById('main');
+var dotsEl = document.getElementById('dots');
+
+/* ---------------- helpers ---------------- */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+// allow only our <hl> tag through
+function rich(s){ return esc(s).replace(/&lt;hl&gt;/g,'<span class="hl">').replace(/&lt;\/hl&gt;/g,'</span>'); }
+
+/* ---- live mockups ---- */
+var MOCKS = [];
+var TIMERS = [];
+var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function later(fn, ms){ var t = setTimeout(fn, ms); TIMERS.push(t); return t; }
+function clearTimers(){ TIMERS.forEach(clearTimeout); TIMERS = []; }
+
+function mockHTML(m){
+  if(!m) return '';
+  var id = MOCKS.length; MOCKS.push(m);
+
+  if(m.t === 'sms'){
+    return '<div class="mock sms" data-mock="'+id+'">'+
+      '<div class="hd"><span class="who"><b>'+esc(m.who)+'</b><span class="sub"></span></span>'+
+      '<button class="replay" type="button" data-replay="'+id+'">Play again</button></div>'+
+      '<div class="bd"></div><div class="mstat"></div></div>';
+  }
+
+  if(m.t === 'email'){
+    var f = m.fields.map(function(x){
+      return '<div class="frow"><div class="k">'+esc(x[0])+'</div><div class="v">'+rich(x[1])+'</div></div>';
+    }).join('');
+    var b = m.lines.map(function(l){
+      return l === '' ? '<p class="ln">&nbsp;</p>' : '<p class="ln">'+rich(l)+'</p>';
+    }).join('');
+    return '<div class="mock email" data-mock="'+id+'">'+
+      '<div class="hd"><span class="who"><b>Inbox</b></span>'+
+      '<button class="replay" type="button" data-replay="'+id+'">Play again</button></div>'+
+      '<div class="newmail" hidden><span class="live"><span class="dotp"></span></span>1 new message</div>'+
+      f+'<div class="bd">'+b+'</div></div>';
+  }
+
+  if(m.t === 'notice'){
+    return '<div class="notice"><b>'+esc(m.title)+'</b>'+
+      m.lines.map(function(l){return '<p>'+rich(l)+'</p>';}).join('')+'</div>';
+  }
+  return '';
+}
+
+function finishMock(el){
+  var m = MOCKS[+el.getAttribute('data-mock')];
+  el.classList.add('done');
+  if(el.classList.contains('sms')){
+    var bd = el.querySelector('.bd');
+    bd.innerHTML = m.lines.map(function(l){ return '<p class="bub in">'+rich(l)+'</p>'; }).join('');
+    el.querySelector('.sub').innerHTML = esc(m.sub || '');
+    el.querySelector('.mstat').textContent = 'Delivered';
+  } else {
+    var nm = el.querySelector('.newmail'); if(nm) nm.hidden = true;
+    Array.prototype.forEach.call(el.querySelectorAll('.frow,.ln'), function(x){ x.classList.add('in'); });
+    Array.prototype.forEach.call(el.querySelectorAll('.hl'), function(x){ x.classList.add('on'); });
+  }
+}
+
+function playMock(el){
+  if(el.getAttribute('data-state') === 'playing') return;
+  var m = MOCKS[+el.getAttribute('data-mock')];
+  el.classList.remove('done');
+  if(REDUCED){ finishMock(el); el.setAttribute('data-state','done'); return; }
+  el.setAttribute('data-state','playing');
+
+  if(el.classList.contains('sms')){
+    var bd = el.querySelector('.bd'), sub = el.querySelector('.sub'), st = el.querySelector('.mstat');
+    bd.innerHTML = ''; st.textContent = '';
+    var i = 0;
+    (function step(){
+      if(i >= m.lines.length){
+        sub.innerHTML = esc(m.sub || '');
+        st.textContent = 'Delivered';
+        el.setAttribute('data-state','done'); el.classList.add('done');
+        return;
+      }
+      sub.innerHTML = '<span class="live"><span class="dotp"></span>typing</span>';
+      var tp = document.createElement('div');
+      tp.className = 'typing'; tp.innerHTML = '<i></i><i></i><i></i>';
+      bd.appendChild(tp);
+      later(function(){
+        if(tp.parentNode) tp.parentNode.removeChild(tp);
+        var p = document.createElement('p');
+        p.className = 'bub'; p.innerHTML = rich(m.lines[i]);
+        bd.appendChild(p);
+        later(function(){ p.classList.add('in'); }, 20);
+        i++;
+        later(step, 340);
+      }, i === 0 ? 700 : 560);
+    })();
+    return;
+  }
+
+  // email
+  var nm = el.querySelector('.newmail');
+  var rows = el.querySelectorAll('.frow');
+  var lines = el.querySelectorAll('.ln');
+  Array.prototype.forEach.call(rows, function(r){ r.classList.remove('in'); });
+  Array.prototype.forEach.call(lines, function(l){ l.classList.remove('in'); });
+  Array.prototype.forEach.call(el.querySelectorAll('.hl'), function(x){ x.classList.remove('on'); });
+  if(nm) nm.hidden = false;
+
+  later(function(){
+    if(nm) nm.hidden = true;
+    Array.prototype.forEach.call(rows, function(r, ri){
+      later(function(){ r.classList.add('in'); }, ri * 140);
+    });
+    var after = rows.length * 140 + 160;
+    Array.prototype.forEach.call(lines, function(l, li){
+      later(function(){ l.classList.add('in'); }, after + li * 105);
+    });
+    later(function(){
+      Array.prototype.forEach.call(el.querySelectorAll('.hl'), function(x){ x.classList.add('on'); });
+      el.setAttribute('data-state','done'); el.classList.add('done');
+    }, after + lines.length * 105 + 220);
+  }, 620);
+}
+
+var OBS = null;
+if(window.IntersectionObserver){
+  OBS = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting && !en.target.getAttribute('data-state')){
+        playMock(en.target);
+        OBS.unobserve(en.target);
+      }
+    });
+  }, {threshold:0.3});
+}
+
+function initMocks(){
+  var all = document.querySelectorAll('[data-mock]');
+  Array.prototype.forEach.call(all, function(el){
+    el.removeAttribute('data-state');
+    if(OBS) OBS.observe(el); else playMock(el);
+  });
+}
+
+function updateProgress(){
+  var n = Object.keys(answered).length;
+  var pct = Math.round(n/TOTAL*100);
+  document.getElementById('progTxt').textContent = n + ' of ' + TOTAL + ' answered';
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progFill').style.width = pct + '%';
+  Array.prototype.forEach.call(dotsEl.children, function(d, idx){
+    d.setAttribute('aria-current', String(idx === view));
+    if(idx < ROUNDS.length){
+      var all = ROUNDS[idx].items.every(function(_, ii){ return (idx+'.'+ii) in answered; });
+      d.classList.toggle('done', all);
+    } else {
+      d.classList.toggle('done', n === TOTAL);
+    }
+  });
+}
+
+function buildDots(){
+  var h = '';
+  ROUNDS.forEach(function(r,i){ h += '<button class="dot" type="button" data-go="'+i+'">Part '+(i+1)+'</button>'; });
+  h += '<button class="dot" type="button" data-go="'+ROUNDS.length+'">Results</button>';
+  dotsEl.innerHTML = h;
+}
+
+/* ---------------- render ---------------- */
+function render(){
+  clearTimers(); MOCKS = [];
+  if(view === ROUNDS.length){ renderResults(); }
+  else { renderRound(view); }
+  initMocks();
+  updateProgress();
+  window.scrollTo(0,0);
+}
+
+function renderRound(ri){
+  var r = ROUNDS[ri];
+  var h = '<section class="rhead"><div class="n">Part '+(ri+1)+' of '+ROUNDS.length+'</div>'+
+          '<h2>'+esc(r.name)+'</h2><p>'+esc(r.blurb)+'</p></section>';
+
+  r.items.forEach(function(it, ii){
+    var key = ri+'.'+ii;
+    h += '<article class="card" data-key="'+key+'">'+
+         '<span class="tag">Question '+(ii+1)+'</span>'+
+         mockHTML(it.mock)+
+         '<div class="qtop"><span class="qn">'+(ii+1)+'</span><span class="qtext">'+esc(it.q)+'</span></div>'+
+         '<div class="opts'+(it.two?' two':'')+'">'+
+           it.opts.map(function(o,oi){
+             return '<button class="opt" type="button" data-pick="'+oi+'">'+
+                    '<span class="mk">'+String.fromCharCode(65+oi)+'</span><span>'+esc(o)+'</span></button>';
+           }).join('')+
+         '</div>'+
+         '<div class="fb"><b></b><span></span></div>'+
+         '</article>';
+  });
+
+  h += '<div class="nav">'+
+       '<button class="btn ghost" type="button" data-nav="prev"'+(ri===0?' disabled':'')+'>Back</button>'+
+       '<button class="btn" type="button" data-nav="next">'+(ri===ROUNDS.length-1?'See my results':'Next part')+'</button>'+
+       '</div>';
+  main.innerHTML = h;
+}
+
+function pick(card, oi){
+  var key = card.getAttribute('data-key');
+  if(key in answered) return;
+  var parts = key.split('.');
+  var it = ROUNDS[+parts[0]].items[+parts[1]];
+  var correct = (oi === it.a);
+  answered[key] = correct;
+
+  var btns = card.querySelectorAll('.opt');
+  Array.prototype.forEach.call(btns, function(b, bi){
+    b.disabled = true;
+    if(bi === it.a) b.classList.add('right');
+    else if(bi === oi) b.classList.add('wrong');
+  });
+  var fb = card.querySelector('.fb');
+  fb.className = 'fb show ' + (correct ? 'good' : 'bad');
+  fb.querySelector('b').textContent = correct ? 'Yes, that is right.' : 'Not this time. The right answer is marked in green.';
+  fb.querySelector('span').textContent = it.why;
+  updateProgress();
+}
+
+function renderResults(){
+  var n = Object.keys(answered).length;
+  var right = 0;
+  Object.keys(answered).forEach(function(k){ if(answered[k]) right++; });
+
+  var h = '<section class="rhead"><div class="n">Results</div><h2>What you already know</h2>'+
+          '<p>This is a starting point, not a mark. The lower bars show where today\'s lesson will help most.</p></section>';
+
+  h += '<div class="card"><div class="score"><div class="big">'+right+'</div>'+
+       '<div class="of">out of '+TOTAL+' correct'+(n<TOTAL?' ('+(TOTAL-n)+' not answered yet)':'')+'</div></div>';
+
+  h += '<div class="brk">';
+  ROUNDS.forEach(function(r, ri){
+    var tot = r.items.length, got = 0;
+    r.items.forEach(function(_, ii){ if(answered[ri+'.'+ii]) got++; });
+    var pct = Math.round(got/tot*100);
+    h += '<div class="brow"><span class="nm">Part '+(ri+1)+': '+esc(r.name)+'</span>'+
+         '<span class="mb"><i style="width:'+pct+'%"></i></span>'+
+         '<span class="sc">'+got+' / '+tot+'</span></div>';
+  });
+  h += '</div></div>';
+
+  // weakest first
+  var order = ROUNDS.map(function(r, ri){
+    var got = 0; r.items.forEach(function(_, ii){ if(answered[ri+'.'+ii]) got++; });
+    return {ri:ri, got:got, tot:r.items.length};
+  }).sort(function(a,b){ return (a.got/a.tot) - (b.got/b.tot); });
+
+  h += '<div class="note"><b>WHAT TODAY\'S LESSON GIVES YOU</b><ul class="plan">';
+  order.forEach(function(o){
+    h += '<li><b style="display:inline">'+esc(ROUNDS[o.ri].name)+'</b> &rarr; '+esc(ROUNDS[o.ri].maps)+'</li>';
+  });
+  h += '</ul></div>';
+
+  h += '<div class="note amber"><b>ONE THING TO REMEMBER BEFORE WE START</b>'+
+       '<p>The answer is always in the text. Not in what you already know about the world, and not in what usually happens.</p>'+
+       '<p>If the text does not say it, it is not there.</p></div>';
+
+  h += '<div class="nav"><button class="btn ghost" type="button" data-nav="prev">Back to Part '+ROUNDS.length+'</button>'+
+       '<button class="btn" type="button" data-nav="restart">Start again</button></div>';
+  main.innerHTML = h;
+}
+
+/* ---------------- events ---------------- */
+document.addEventListener('click', function(e){
+  var rp = e.target.closest ? e.target.closest('[data-replay]') : null;
+  if(rp){
+    var host = rp.closest('[data-mock]');
+    host.removeAttribute('data-state');
+    playMock(host);
+    return;
+  }
+  var mk = e.target.closest ? e.target.closest('[data-mock]') : null;
+  if(mk && mk.getAttribute('data-state') === 'playing'){
+    clearTimers(); finishMock(mk); mk.setAttribute('data-state','done');
+    return;
+  }
+
+  var opt = e.target.closest ? e.target.closest('.opt') : null;
+  if(opt && !opt.disabled){
+    pick(opt.closest('.card'), +opt.getAttribute('data-pick'));
+    return;
+  }
+  var nav = e.target.closest ? e.target.closest('[data-nav]') : null;
+  if(nav){
+    var a = nav.getAttribute('data-nav');
+    if(a === 'prev' && view > 0){ view--; render(); }
+    else if(a === 'next' && view < ROUNDS.length){ view++; render(); }
+    else if(a === 'restart'){ restart(); }
+    return;
+  }
+  var dot = e.target.closest ? e.target.closest('[data-go]') : null;
+  if(dot){ view = +dot.getAttribute('data-go'); render(); return; }
+});
+
+document.addEventListener('keydown', function(e){
+  if(e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+  if(e.key === 'ArrowRight' && view < ROUNDS.length){ view++; render(); }
+  if(e.key === 'ArrowLeft' && view > 0){ view--; render(); }
+});
+
+document.getElementById('bigBtn').addEventListener('click', function(){
+  document.body.classList.toggle('big');
+  this.textContent = document.body.classList.contains('big') ? 'Normal text' : 'Bigger text';
+});
+
+function restart(){ answered = {}; view = 0; render(); }
+document.getElementById('restartBtn').addEventListener('click', restart);
+
+buildDots();
+render();
+</script>
+</body>
+</html>
